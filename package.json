@@ -12,6 +12,7 @@
   "author": "Jim <monstertke@paperelectron.com> (http://paperelectron.com/)",
   "license": "MIT",
   "dependencies": {
-    "yeoman-generator": "^0.20.2"
+    "yeoman-generator": "^0.20.2",
+    "yosay": "^1.0.5"
   }
 }
