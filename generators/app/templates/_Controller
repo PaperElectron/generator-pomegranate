@@ -1,0 +1,85 @@
+/**
+ * @file <%= controllerPath %>/<%= controllerName %>
+ */
+
+'use strict'
+
+module.exports = function(SQL){
+
+  var <%= modelFileName %> = SQL.<%= modelName %>;
+
+  return {
+
+    /**
+     * Returns the first 100 DB results, limit or offset optional.
+     * @param {number} limit
+     * @param {number} offset
+     * @returns {Promise}
+     */
+    GetAll: function(limit, offset) {
+      var params = {limit: limit || 100, offset: offset || 0};
+      return <%= modelFileName %>.findAndCount(params);
+    },
+
+    /**
+     * Proxy method for native findById
+     * @param {number} id
+     * @returns {Promise}
+     */
+    FindById: function(id) {
+      return <%= modelFileName %>.findById(id);
+    },
+
+    /**
+     * Creates a new <%= modelName %>.
+     * @param {Object} data
+     * @returns {Promise}
+     */
+    Create: function(data){
+      return <%= modelFileName %>.create(data)
+    },
+
+    /**
+     * Deletes <%= modelName %>.
+     * @param {number} id
+     * @returns {Promise}
+     */
+    Destroy: function(id){
+      return <%= modelFileName %>.findById(id)
+        .then(function(instance){
+          if(instance){
+            return instance.destroy()
+          }
+          return null
+        })
+        .error(function(err){
+          return err
+        })
+    },
+
+    /**
+     * Updates a  <%= modelName %>.
+     * @param {number} id
+     * @param {Object} data
+     * @returns {Promise}
+     */
+    Update: function(id, data){
+      return <%= modelFileName %>.findById(id)
+        .then(function(instance){
+          var update = {};
+
+          //This is a potentially unsafe approach, feel free to implement
+          //a more specific update method.
+          ['name'].forEach(function(key) {
+            if(data[key]){
+              update[key] = data[key]
+            }
+          });
+          return instance.updateAttributes(update)
+        })
+        .error(function(err){
+          return err
+        })
+    }
+  }
+}

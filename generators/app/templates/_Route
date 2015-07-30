@@ -1,0 +1,84 @@
+/**
+ * @file <%= fullFileRoute %>/index.js
+ */
+
+'use strict'
+
+module.exports = function(Router, <%= modelFileName %>){
+
+  /**
+   * Get all users
+   */
+  Router.get('/', function(req, res) {
+
+    <%= modelFileName %>.GetAll()
+      .then(function(all){
+        res.json(all)
+      })
+      .error(function(err){
+        Logger.error(err);
+        res.status(500).json({status: 'Server Error', path: req.originalUrl})
+      })
+  });
+
+  /**
+   *  Create
+   */
+  Router.post('/', function(req, res){
+
+    <%= modelFileName %>.Create(req.body)
+      .then(function(instance){
+        if(instance) {
+          return res.json(instance)
+        }
+        return res.status(404).json({status: 'Not Created', path: req.originalUrl})
+      })
+      .error(function(err){
+        Logger.error(err)
+        return res.status(500).json({status: 'Server Error', path: req.originalUrl})
+      })
+  });
+
+  /**
+   *  Read
+   */
+  Router.get('/:id', function(req, res){
+
+    <%= modelFileName %>.FindById(req.params.id)
+      .then(function(instance) {
+        if(instance) {
+         return  res.json(instance)
+        }
+        return res.status(404).json({status: 'Not Found', path: req.originalUrl})
+      })
+      .catch(function(err){
+        if(err.name === 'SequelizeValidationError'){
+          return res.status(404).json({status: 'Not Found', path: req.originalUrl})
+        }
+        return res.status(500).json({status: 'Server Error', path: req.originalUrl})
+      })
+
+  });
+
+  /**
+   *  Update
+   */
+  Router.put('/:id', function(req, res){
+    <%= modelFileName %>.Update(req.params.id, req.body).then(function(updated){
+      res.json(updated)
+    })
+  });
+
+  /**
+   *  Delete
+   */
+  Router.delete('/:id', function(req, res) {
+    <%= modelFileName %>.Destroy(req.params.id).then(function(destroyed){
+      if(destroyed) {
+        return res.json({status: '<%= modelFileName %> Destroyed', path: req.originalUrl})
+      }
+      return res.status(404).json({status: 'Not able to complete request', path: req.originalUrl})
+    })
+  });
+  return Router
+};

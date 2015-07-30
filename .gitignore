@@ -1,0 +1,11 @@
+/node_modules/*
+.idea/
+*.off/
+*.sqlite
+*.log
+.DS_Store
+env.json
+/scratch
+controllers/
+models/
+routes/

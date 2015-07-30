@@ -1,0 +1,21 @@
+/**
+ * @file  <%= modelPath %>/<%= modelFileName %>
+ */
+
+'use strict';
+
+module.exports = function(sequelize, DataTypes) {
+  var <%= modelFileName %> = sequelize.define('<%= modelName %>', {
+      //Feel Free to add your own stuff.
+      name: {type: DataTypes.STRING, allowNull: false}
+  },
+  {
+    classMethods: {
+      associate: function(models) {
+        //define associations if any.
+      }
+    }
+  });
+
+  return <%= modelFileName %>
+};
