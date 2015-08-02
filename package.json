@@ -1,6 +1,6 @@
 {
   "name": "generator-pomegranate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Model, controller, route generators for the Pomegranate framework",
   "main": "index.js",
   "scripts": {
