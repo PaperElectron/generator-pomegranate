@@ -60,17 +60,18 @@ module.exports = function(SQL){
     /**
      * Updates a  <%= modelName %>.
      * @param {number} id
+     * @param {Array} keys Array of model attributes to update.
      * @param {Object} data
      * @returns {Promise}
      */
-    Update: function(id, data){
+    Update: function(id, keys, data){
       return <%= modelFileName %>.findById(id)
         .then(function(instance){
           var update = {};
 
           //This is a potentially unsafe approach, feel free to implement
           //a more specific update method.
-          ['name'].forEach(function(key) {
+          keys.forEach(function(key) {
             if(data[key]){
               update[key] = data[key]
             }
